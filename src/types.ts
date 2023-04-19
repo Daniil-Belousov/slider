@@ -25,6 +25,7 @@ export interface StateI {
   slides: SlideI[],
   isLoading: boolean,
   error: boolean,
+  pause: boolean,
   settings: SettingsI,
 }
 

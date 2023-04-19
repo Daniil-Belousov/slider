@@ -38,7 +38,7 @@ const SettingsModal = ({setOpenModal}: PropsI) => {
                 item.name !== 'delay' ? (
                 <OptionString key={Date.now()+item.name}>
                   <OptionName>{switchOptions(item.name)}:</OptionName>
-                  <OptionButton onClick={() => dispatch(switchActions(item.name))} option={item.value}>{item.value ? 'ON' : 'OFF'}</OptionButton>
+                  <OptionButton onClick={() => dispatch(switchActions(item.name))} disabled={item.name === 'stopMouseHover' && !settings.auto} option={item.value}>{item.value ? 'ON' : 'OFF'}</OptionButton>
                 </OptionString>
                 ) : (
                   <OptionString key={item.name}>

@@ -6,13 +6,14 @@ const initialState: StateI = {
   slides: [],
   isLoading: false,
   error: false,
+  pause: false,
   settings: {
     navigation: true,
     pagination: true,
     loop: true,
     auto: false,
     delay: 3,
-    stopMouseHover: true,
+    stopMouseHover: false,
   }
 }
 
@@ -29,11 +30,16 @@ const mainSlice = createSlice({
   initialState,
   reducers: {
     nextSlide(state) {
+      if(state.settings.loop) {
         if(state.currentSlideIndex === state.slides.length - 1) {
           state.currentSlideIndex = 0
         } else {
           state.currentSlideIndex += 1;
         }
+      } else if(!state.settings.loop && state.currentSlideIndex < state.slides.length - 1) {
+        state.currentSlideIndex += 1;
+      }
+        
     },
     prevSlide(state) {
       if(state.currentSlideIndex === 0) {
@@ -41,6 +47,15 @@ const mainSlice = createSlice({
       } else {
         state.currentSlideIndex -= 1; 
       }
+    },
+    setSlide(state, action) {
+      state.currentSlideIndex = action.payload;
+    },
+    setPause(state) {
+      state.pause = true;
+    },
+    setContinue(state) {
+      state.pause = false;
     },
     setNav(state) {
       state.settings.navigation = !state.settings.navigation;
@@ -78,4 +93,4 @@ const mainSlice = createSlice({
 })
 
 export default mainSlice.reducer;
-export const {nextSlide, prevSlide, setNav, setPag, setLoop, setAuto, setDelay, setStopMouseHover} = mainSlice.actions; 
+export const {nextSlide, prevSlide, setNav, setPag, setLoop, setAuto, setDelay, setStopMouseHover, setSlide, setPause, setContinue} = mainSlice.actions; 
