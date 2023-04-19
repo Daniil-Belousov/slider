@@ -10,11 +10,22 @@ export interface SlideI {
   url: string
 }
 
+export interface SettingsI {
+    navigation: boolean,
+    loop: boolean,
+    pagination: boolean,
+    auto: boolean,
+    stopMouseHover: boolean,
+    delay: number,
+    [key: string]: any;
+}
+
 export interface StateI {
   currentSlideIndex: number,
   slides: SlideI[],
   isLoading: boolean,
   error: boolean,
+  settings: SettingsI,
 }
 
 export type RootState = ReturnType<typeof rootReducer>;

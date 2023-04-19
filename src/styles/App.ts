@@ -20,3 +20,19 @@ export const Background = styled.div`
   align-items: center;
   position: relative;
 `
+
+export const SettingsButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  border: none;
+  padding: 10px 20px;
+  background: transparent;
+  cursor: pointer;
+  transition: 1s;
+  font-size: 20px;
+
+  &:hover {
+    scale: 1.2;
+  }
+`

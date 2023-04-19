@@ -6,6 +6,14 @@ const initialState: StateI = {
   slides: [],
   isLoading: false,
   error: false,
+  settings: {
+    navigation: true,
+    pagination: true,
+    loop: true,
+    auto: false,
+    delay: 3,
+    stopMouseHover: true,
+  }
 }
 
 export const fetchSlides = createAsyncThunk(
@@ -33,6 +41,24 @@ const mainSlice = createSlice({
       } else {
         state.currentSlideIndex -= 1; 
       }
+    },
+    setNav(state) {
+      state.settings.navigation = !state.settings.navigation;
+    },
+    setPag(state) {
+      state.settings.pagination = !state.settings.pagination;
+    },
+    setLoop(state) {
+      state.settings.loop = !state.settings.loop;
+    },
+    setAuto(state) {
+      state.settings.auto = !state.settings.auto;
+    },
+    setDelay(state, action) {
+      state.settings.delay = action.payload;
+    },
+    setStopMouseHover(state) {
+      state.settings.stopMouseHover = !state.settings.stopMouseHover;
     }
   },
   extraReducers: {
@@ -52,4 +78,4 @@ const mainSlice = createSlice({
 })
 
 export default mainSlice.reducer;
-export const {nextSlide, prevSlide} = mainSlice.actions; 
+export const {nextSlide, prevSlide, setNav, setPag, setLoop, setAuto, setDelay, setStopMouseHover} = mainSlice.actions; 
