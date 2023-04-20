@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@src/types'
 import { OptionButton, OptionInput } from '../SettingsModal/style'
 
-const Pagination = () => {
+const Navigation = () => {
 const dispatch = useDispatch();
 
 const { navigation, pagination, loop } = useSelector((state: RootState) => state.main.settings);
@@ -48,4 +48,4 @@ const disabledFollowBtn = pagValue > slides.length || !pagValue || pagValue === 
   )
 }
 
-export default Pagination
+export default Navigation

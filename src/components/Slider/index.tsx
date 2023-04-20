@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Pagination from '@components/Pagination';
+import Navigation from '@src/components/Navigation';
 import { Wrapper, ImgContainer, Subscription} from './style';
 import { RootState } from '@src/types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,7 +48,7 @@ const Slider = () => {
       <h2>{currentSlideIndex + 1} from {slides.length}</h2>
       <ImgContainer src={slides[currentSlideIndex]?.url}/>
       <Subscription>{slides[currentSlideIndex]?.title}</Subscription>
-      <Pagination/>
+      <Navigation/>
     </Wrapper>
   )
 }
