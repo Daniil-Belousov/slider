@@ -14,6 +14,7 @@ export const ImgContainer = styled.img`
   width: 100%;
   height: 100%;
   transition: 1s;
+  border-radius: 3%;
 `
 
 export const Subscription = styled.h3`
