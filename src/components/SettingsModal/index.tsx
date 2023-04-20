@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BackgroundModal, ModalWrapper, Modal, ModalHeader, ModalBody, OptionButton, OptionString, OptionName, OptionInput } from './style'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, SettingsI } from '@src/types';
@@ -23,6 +23,19 @@ const SettingsModal = ({setOpenModal}: PropsI) => {
   const handleClose = () => {
     setOpenModal(false);
   }
+
+  useEffect(() => {
+    function handleKeydown(e: KeyboardEvent) {
+      if(e.key === 'Escape') handleClose();
+    }
+    
+    document.addEventListener('keydown', handleKeydown);
+  
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, []);
+
 
   return (
     <>
