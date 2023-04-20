@@ -41,13 +41,12 @@ const Slider = () => {
   }
 
   return (
-    <Wrapper>
+    <Wrapper
+      onMouseEnter={() => stopMouseHover && dispatch(setPause())} 
+      onMouseLeave={() => dispatch(setContinue())}
+    >
       <h2>{currentSlideIndex + 1} from {slides.length}</h2>
-      <ImgContainer 
-        onMouseEnter={() => stopMouseHover && dispatch(setPause())} 
-        onMouseLeave={() => dispatch(setContinue())}
-        src={slides[currentSlideIndex]?.url}
-      />
+      <ImgContainer src={slides[currentSlideIndex]?.url}/>
       <Subscription>{slides[currentSlideIndex]?.title}</Subscription>
       <Pagination/>
     </Wrapper>

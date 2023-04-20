@@ -12,7 +12,7 @@ const { navigation, pagination, loop } = useSelector((state: RootState) => state
 const {slides, currentSlideIndex} = useSelector((state: RootState) => state.main);
 
 const [pagValue, setPagValue] = useState(1);
-const disabledFollowBtn = pagValue >= slides.length || !pagValue || pagValue === currentSlideIndex + 1;
+const disabledFollowBtn = pagValue > slides.length || !pagValue || pagValue === currentSlideIndex + 1;
 
   return (
     <NavContainer>
