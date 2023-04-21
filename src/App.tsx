@@ -17,7 +17,7 @@ function App() {
       navigation: true,
       pagination: true,
       loop: true,
-      auto: true,
+      auto: false,
       delay: 1,
       stopMouseHover: false,
     }
