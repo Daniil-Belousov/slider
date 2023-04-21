@@ -1,29 +1,57 @@
-import { setNav, setPag, setLoop, setAuto, setDelay, setStopMouseHover } from "@src/reducers/mainSlice"
+import { StateI } from "@src/types";
 
-const switchActions = (option: string, value?: number) => {
+interface PropsI {
+  state: StateI,
+  setState: (state: StateI) => void,
+  option: string,
+  value?: number
+}
+
+const switchActions = ({state, setState, option, value}: PropsI) => {
+
   switch(option) {
     case 'pagination': {
-      return setPag();
+      setState({...state, settings: {
+        ...state.settings, pagination: !state.settings.pagination
+      }})
+      break;
     }
 
     case 'loop': {
-      return setLoop();
+      setState({...state, settings: {
+        ...state.settings, loop: !state.settings.loop
+      }})
+      break;
     }
 
     case 'auto': {
-      return setAuto();
+      setState({...state, settings: {
+        ...state.settings, auto: !state.settings.auto
+      }})
+      break;
     }
 
     case 'delay': {
-      return setDelay(value);
+      if(value) {
+        setState({...state, settings: {
+          ...state.settings, delay: value
+        }})
+      }
+      break;
     }
 
     case 'stopMouseHover': {
-      return setStopMouseHover();
+      setState({...state, settings: {
+        ...state.settings, stopMouseHover: !state.settings.stopMouseHover
+      }})
+      break;
     }
 
     default: {
-      return setNav();
+      setState({...state, settings: {
+        ...state.settings, navigation: !state.settings.navigation
+      }})
+      break;
     }
   }
 }

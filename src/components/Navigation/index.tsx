@@ -1,33 +1,38 @@
 import React, { useState } from 'react'
 import { Button, NavContainer, PagContainer } from './style'
-import { nextSlide, prevSlide, setSlide } from '@src/reducers/mainSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '@src/types'
 import { OptionButton, OptionInput } from '../SettingsModal/style'
+import { StateI } from '@src/types'
 
-const Navigation = () => {
-const dispatch = useDispatch();
+interface PropsI {
+  state: StateI,
+  setState: (state: StateI) => void,
+  nextSlide: () => void,
+  prevSlide: () => void
+}
 
-const { navigation, pagination, loop } = useSelector((state: RootState) => state.main.settings);
-const {slides, currentSlideIndex} = useSelector((state: RootState) => state.main);
-
-const [pagValue, setPagValue] = useState(1);
-const disabledFollowBtn = pagValue > slides.length || !pagValue || pagValue === currentSlideIndex + 1;
+const Navigation = ({state, setState, nextSlide, prevSlide}: PropsI) => {
+  const {currentSlideIndex, slides, settings: { navigation, pagination, loop}} = state;
+  const [pagValue, setPagValue] = useState(1);
+  const disabledFollowBtn = pagValue > slides.length || !pagValue || pagValue === currentSlideIndex + 1;
+  
+  const setSlide = () => {
+    setState({...state, currentSlideIndex: pagValue - 1})
+  }
 
   return (
     <NavContainer>
       {navigation && 
         <>
           <Button 
-            onClick={() => dispatch(prevSlide())}
+            onClick={() => prevSlide()}
             disabled={!loop && currentSlideIndex === 0}
           >{'<'}</Button>
           <Button 
-            onClick={() => dispatch(nextSlide())}
+            onClick={() => nextSlide()}
             disabled={!loop && currentSlideIndex === slides.length - 1}
           >{'>'}</Button>
         </>
-      }  
+      }
       {pagination &&
         <PagContainer>
           <OptionInput
@@ -38,7 +43,7 @@ const disabledFollowBtn = pagValue > slides.length || !pagValue || pagValue === 
             onChange={(e) => setPagValue(Number(e.target.value))}
           />
           <OptionButton 
-            onClick={() => dispatch(setSlide(pagValue - 1))} 
+            onClick={() => setSlide()} 
             disabled={disabledFollowBtn}
             option={!disabledFollowBtn}
           >Follow</OptionButton>

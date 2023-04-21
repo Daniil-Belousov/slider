@@ -1,36 +1,75 @@
 import React, { useEffect } from 'react';
 import Navigation from '@src/components/Navigation';
 import { Wrapper, ImgContainer, Subscription} from './style';
-import { RootState } from '@src/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { nextSlide, setContinue, setPause } from '@src/reducers/mainSlice';
+import { StateI } from '@src/types';
 
-const Slider = () => {
-  const dispatch = useDispatch();
+interface PropsI {
+  state: StateI,
+  setState: (state: StateI) => void
+  isOpenModal: boolean,
+}
+
+const Slider = ({ state, setState, isOpenModal }: PropsI) => {
   const { 
     currentSlideIndex, 
-    isLoading, 
-    error, 
     slides, 
-    pause,
-    settings: {
-      delay, 
+    isLoading, 
+    pause, 
+    error, 
+    settings: { 
+      stopMouseHover, 
       auto, 
-      loop, 
-      stopMouseHover
-    }} = useSelector((state: RootState) => state.main);
+      delay, 
+      loop 
+    }} = state;
+
+    const nextSlide = () => {
+      if(loop){
+        if(currentSlideIndex < slides.length - 1) {
+          setState({...state, currentSlideIndex: currentSlideIndex + 1})
+        } else {
+          setState({...state, currentSlideIndex: 0})
+        }
+      } else {
+        if(currentSlideIndex < slides.length - 1) {
+          setState({...state, currentSlideIndex: currentSlideIndex + 1})
+        }
+      }
+    }
+
+    const prevSlide = () => {
+      if(loop) {
+        if(currentSlideIndex > 0) {
+          setState({...state, currentSlideIndex: currentSlideIndex - 1})
+        } else {
+          setState({...state, currentSlideIndex: slides.length - 1})
+        }
+      } else {
+        if(currentSlideIndex > 0) {
+          setState({...state, currentSlideIndex: currentSlideIndex - 1})
+        }
+      }
+    }
+
+    const setPause = () => {
+      setState({...state, pause: true})
+    }
+
+    const setContinue = () => {
+      setState({...state, pause: false})
+    }
 
   useEffect(() => {
-    if (!auto || pause) return;
+    if (!auto || pause || !slides.length || isOpenModal) return;
 
     const interval = setInterval(() => {
-      dispatch(nextSlide())
+      nextSlide();
     }, delay*1000);
 
     return () => {
       clearInterval(interval);
     };
-  }, [auto, delay, loop, stopMouseHover, pause, dispatch])
+  }, [auto, delay, loop, stopMouseHover, pause, currentSlideIndex, slides.length, isOpenModal])
 
   if(isLoading) {
     return <h2>Loading, please wait...</h2>
@@ -42,13 +81,18 @@ const Slider = () => {
 
   return (
     <Wrapper
-      onMouseEnter={() => stopMouseHover && dispatch(setPause())} 
-      onMouseLeave={() => dispatch(setContinue())}
+      onMouseEnter={() => stopMouseHover && setPause()} 
+      onMouseLeave={() => stopMouseHover && setContinue()}
     >
       <h2>{currentSlideIndex + 1} from {slides.length}</h2>
       <ImgContainer src={slides[currentSlideIndex]?.url}/>
       <Subscription>{slides[currentSlideIndex]?.title}</Subscription>
-      <Navigation/>
+      <Navigation
+        state={state}
+        setState={setState}
+        nextSlide={nextSlide}
+        prevSlide={prevSlide}
+      />
     </Wrapper>
   )
 }
